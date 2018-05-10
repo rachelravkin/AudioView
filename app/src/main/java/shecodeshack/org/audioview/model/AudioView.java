@@ -12,18 +12,18 @@ public class AudioView {
     private long id;
     private Bitmap image;
     private String text;
-    private AudioRecord audio;
+    private String audioPath;
     private Date created;
 
     public AudioView() {
         created = new Date();
     }
 
-    public AudioView(Bitmap image, String text, AudioRecord audio) {
+    public AudioView(Bitmap image, String text, String audioPath) {
         this();
         this.image = image;
         this.text = text;
-        this.audio = audio;
+        this.audioPath = audioPath;
     }
 
     public long getId() { return id; }
@@ -35,8 +35,8 @@ public class AudioView {
     public String getText() { return text; }
     public void setText(String text) { this.text = text; }
 
-    public AudioRecord getAudio() { return audio; }
-    public void setAudio(AudioRecord audio) { this.audio = audio; }
+    public String getAudio() { return audioPath; }
+    public void setAudio(String audioPath) { this.audioPath = audioPath; }
 
     public Date getCreated() { return created; }
     public void setCreated(Date created) { this.created = created; }
