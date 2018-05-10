@@ -20,11 +20,13 @@ import java.io.InputStream;
 
 import shecodeshack.org.audioview.R;
 import shecodeshack.org.audioview.constants.Constants;
+import shecodeshack.org.audioview.model.AudioView;
 
 /**
  * Activity to create new AudioView object.
  */
 public class CreateAudioViewActivity extends AppCompatActivity {
+    AudioView audioViewObject = new AudioView();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class CreateAudioViewActivity extends AppCompatActivity {
      * Allows to add image to AudioView object. <br>
      * Activated when imageView is clicked.
      *///imageView.onClick:
-    public void addImage(View view) {
+    public void onClickImage(View view) {
         String readExternalStoragePermission = Manifest.permission.READ_EXTERNAL_STORAGE;
         if ( ! hasPermission(readExternalStoragePermission)) {
             promptRequestPermissions(readExternalStoragePermission);
@@ -109,17 +111,15 @@ public class CreateAudioViewActivity extends AppCompatActivity {
                 BufferedInputStream buff = new BufferedInputStream(inputStream);
                 Bitmap bmp = BitmapFactory.decodeStream(buff);
 
+                audioViewObject.setImage(bmp);
+
                 ImageView galleryImg = findViewById(R.id.img_gallery);
                 galleryImg.setImageBitmap(bmp);
             }catch(FileNotFoundException e) {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
-
-
-
         }
     }
-
 
 
 

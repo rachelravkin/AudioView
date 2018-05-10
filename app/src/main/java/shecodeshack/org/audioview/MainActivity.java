@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO create view
     }
 
+    /** Opens {@link CreateAudioViewActivity} view. */
     public void openCreateAudioViewActivity(View view) {
         Intent intent = new Intent(this, CreateAudioViewActivity.class);
         startActivity(intent);
