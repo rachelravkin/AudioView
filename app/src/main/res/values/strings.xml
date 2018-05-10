@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name" translatable="false">AudioView</string>
+    <string name="Greeting">Hello!</string>
+    <string name="button_send">Send</string>
+</resources>
