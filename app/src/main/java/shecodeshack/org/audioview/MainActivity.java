@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import shecodeshack.org.audioview.activity.CreateAudioViewActivity;
 
 import shecodeshack.org.audioview.constants.Constants;
 import shecodeshack.org.audioview.model.AudioView;
-import shecodeshack.org.audioview.model.ListWrapper;
+import shecodeshack.org.audioview.model.AudioViewList;
 
 import shecodeshack.org.audioview.activity.ExistantActivity;
 
@@ -21,13 +22,11 @@ import shecodeshack.org.audioview.activity.ExistantActivity;
  * Main Activity of the app.
  */
 public class MainActivity extends AppCompatActivity {
-    private Intent mainIntent;
-    private ListWrapper<AudioView> avList;
+    private AudioViewList avList;
 
 
     public MainActivity() {
-        avList = new ListWrapper<>();
-        mainIntent = new Intent();
+        avList = AudioViewList.getInstance();
     }
 
     @Override
@@ -35,37 +34,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainIntent.putExtra(Constants.AUDIO_VIEW_LIST.name(), avList);
+    }
 
-        //TODO create view
+    /**
+     * Re-renders view according to added AudioViews.
+     */
+    @Override
+    protected void onResumeFragments() { //render view
+        List<AudioView> list = avList.getAudioViewList();
+        Toast.makeText(this, "Resumed fragment " + list.size(), Toast.LENGTH_LONG).show();
+
+        if (list.size() > 0) {
+            ImageView imageView = findViewById(R.id.imageView); //TODO change: gardcoded top image rendering
+            imageView.setImageBitmap(list.get(list.size()-1).getImage());
+        }
     }
 
     /** Opens {@link CreateAudioViewActivity} view. */
     public void openCreateAudioViewActivity(View view) {
-        //Intent intent = new Intent(this, CreateAudioViewActivity.class); TODO remove
-        mainIntent.setClass(this, CreateAudioViewActivity.class);
-        startActivity(mainIntent);
+        Intent intent = new Intent(this, CreateAudioViewActivity.class);
+        startActivity(intent);
     }
 
     /** method to go from the main activity to the Existant Activity*/
     public void goExistantActivity(View view) {
         Intent intent = new Intent(this, ExistantActivity.class);
+        boolean renderImg = false;
+        if(AudioViewList.getInstance().getAudioViewList().size() > 0)
+            renderImg = true;
+
+        intent.putExtra(Constants.RENDER_IMG.name(), renderImg);
         startActivity(intent);
 
     }
-
-
-    /**
-     * Adds a valid AudioView object to list of AudioViews.
-     * @return {@code true} if object valid, {@code false} otherwise.
-     */
-    public boolean addAudioView(AudioView audioView) {
-        if (audioView != null && audioView.getImage() != null) {
-            avList.getList().add(audioView);
-            return true;
-        }
-        return false;
-    }
-
 
 }

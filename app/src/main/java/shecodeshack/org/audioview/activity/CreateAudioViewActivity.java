@@ -18,11 +18,10 @@ import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import shecodeshack.org.audioview.MainActivity;
 import shecodeshack.org.audioview.R;
 import shecodeshack.org.audioview.constants.Constants;
 import shecodeshack.org.audioview.model.AudioView;
-import shecodeshack.org.audioview.model.ListWrapper;
+import shecodeshack.org.audioview.model.AudioViewList;
 
 
 /**
@@ -33,18 +32,17 @@ public class CreateAudioViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_audio_view);
-        findViewById(R.id.btn_save).setClickable(false);
+        findViewById(R.id.btn_save).setVisibility(View.INVISIBLE);
     }
 
     /**
      * Saves AudioView object to list and returns to main activity.
      */
     public void onClickSave(View view){
-        ListWrapper<AudioView> ls = (ListWrapper) getIntent().getSerializableExtra(Constants.AUDIO_VIEW_LIST.name());
-        ls.getList().add(audioViewObject);
+        //save to singleton instance
+        AudioViewList.getInstance().getAudioViewList().add(audioViewObject);
         finish();
     }
 
@@ -130,7 +128,7 @@ public class CreateAudioViewActivity extends AppCompatActivity {
                 galleryImg.setImageBitmap(bmp);
 
                 //allow save
-                findViewById(R.id.btn_save).setClickable(true);
+                findViewById(R.id.btn_save).setVisibility(View.VISIBLE);
 
             }catch(FileNotFoundException e) {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
