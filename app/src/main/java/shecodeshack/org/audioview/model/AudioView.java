@@ -3,12 +3,13 @@ package shecodeshack.org.audioview.model;
 import android.graphics.Bitmap;
 import android.media.AudioRecord;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * A class to preserve the connection between an image, a text and an audio.
  */
-public class AudioView {
+public class AudioView implements Serializable { //TODO change to Parcelable for performance
     private long id;
     private Bitmap image;
     private String text;

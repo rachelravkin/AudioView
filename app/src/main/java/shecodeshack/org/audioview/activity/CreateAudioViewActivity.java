@@ -18,9 +18,12 @@ import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import shecodeshack.org.audioview.MainActivity;
 import shecodeshack.org.audioview.R;
 import shecodeshack.org.audioview.constants.Constants;
 import shecodeshack.org.audioview.model.AudioView;
+import shecodeshack.org.audioview.model.ListWrapper;
+
 
 /**
  * Activity to create new AudioView object.
@@ -30,9 +33,19 @@ public class CreateAudioViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_audio_view);
+        findViewById(R.id.btn_save).setClickable(false);
+    }
 
+    /**
+     * Saves AudioView object to list and returns to main activity.
+     */
+    public void onClickSave(View view){
+        ListWrapper<AudioView> ls = (ListWrapper) getIntent().getSerializableExtra(Constants.AUDIO_VIEW_LIST.name());
+        ls.getList().add(audioViewObject);
+        finish();
     }
 
     /**
@@ -115,6 +128,10 @@ public class CreateAudioViewActivity extends AppCompatActivity {
 
                 ImageView galleryImg = findViewById(R.id.img_gallery);
                 galleryImg.setImageBitmap(bmp);
+
+                //allow save
+                findViewById(R.id.btn_save).setClickable(true);
+
             }catch(FileNotFoundException e) {
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
