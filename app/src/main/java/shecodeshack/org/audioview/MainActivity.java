@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shecodeshack.org.audioview.activity.CreateAudioViewActivity;
+
 import shecodeshack.org.audioview.constants.Constants;
 import shecodeshack.org.audioview.model.AudioView;
 import shecodeshack.org.audioview.model.ListWrapper;
+
+import shecodeshack.org.audioview.activity.ExistantActivity;
+
 
 /**
  * Main Activity of the app.
@@ -41,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
         //Intent intent = new Intent(this, CreateAudioViewActivity.class); TODO remove
         mainIntent.setClass(this, CreateAudioViewActivity.class);
         startActivity(mainIntent);
+    }
+
+    /** method to go from the main activity to the Existant Activity*/
+    public void goExistantActivity(View view) {
+        Intent intent = new Intent(this, ExistantActivity.class);
+        startActivity(intent);
+
     }
 
 
