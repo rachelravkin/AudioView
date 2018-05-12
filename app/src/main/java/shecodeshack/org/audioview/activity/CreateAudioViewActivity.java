@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaRecorder;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +19,9 @@ import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 import shecodeshack.org.audioview.R;
 import shecodeshack.org.audioview.constants.Constants;
@@ -35,6 +40,12 @@ public class CreateAudioViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_audio_view);
         findViewById(R.id.btn_save).setVisibility(View.INVISIBLE);
+
+        //init record:
+        record = findViewById(R.id.btn_record);
+        recordOff = findViewById(R.id.btn_record_off);
+        record.setEnabled(true);
+        recordOff.setEnabled(false);
     }
 
     /**
@@ -135,6 +146,71 @@ public class CreateAudioViewActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+
+    /*
+    Record Implementation
+     */
+
+    private FloatingActionButton record, recordOff;
+    private MediaRecorder mediaRecorder;
+    private String audioPath;
+
+
+
+    public void startRecord(View view) {
+        if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                &&hasPermission(Manifest.permission.RECORD_AUDIO) ) {
+            audioPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"
+                    + UUID.randomUUID().toString() + "_audio_record.3gp";
+            setupMediaRecorder();
+            try {
+                mediaRecorder.prepare();
+                mediaRecorder.start();
+            }catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            record.setEnabled(false);
+            recordOff.setEnabled(true);
+            Toast.makeText(this, "Recording...", Toast.LENGTH_LONG).show();
+        }
+        else
+            requestPermissions();
+    }
+
+
+    private void setupMediaRecorder() {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setOutputFile(audioPath);
+    }
+
+    /**
+     * Stops recording from device.
+     */
+    public void stopRecord(View v) {
+        mediaRecorder.stop();
+        recordOff.setEnabled(false);
+        record.setEnabled(true);
+    }
+
+
+
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[] {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO
+        }, Constants.RECORD_AUDIO_PERMISSION.ordinal());
+    }
+
+
 
 
 

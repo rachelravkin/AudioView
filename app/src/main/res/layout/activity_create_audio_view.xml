@@ -25,21 +25,41 @@
         android:layout_marginBottom="28dp"
         android:layout_marginEnd="32dp"
         android:clickable="true"
+        android:onClick="startRecord"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/presence_audio_online" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_record_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="36dp"
+        android:clickable="true"
+        android:onClick="stopRecord"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_record"
+        app:srcCompat="@android:drawable/ic_media_pause" />
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginStart="8dp"
         android:clickable="true"
         android:onClick="onClickSave"
         android:src="@android:drawable/ic_menu_save"
         app:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_record" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_record"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </android.support.constraint.ConstraintLayout>
