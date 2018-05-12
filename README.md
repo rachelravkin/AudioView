@@ -12,7 +12,7 @@ Started development during a SheCodes 30-hours Hackathon.
 
 ## Future Features
 
-- [] Support text notes in AudioViews
-- [] Capture images from camera
-- [] Sort AudioViews by creation date
-- [] Share your AudioViews with others
+- [ ] Support text notes in AudioViews
+- [ ] Capture images from camera
+- [ ] Sort AudioViews by creation date
+- [ ] Share your AudioViews with others
